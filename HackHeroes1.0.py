@@ -1,5 +1,9 @@
+import os
 from tkinter import *
 from PIL import ImageTk, Image
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 
 root = Tk()
 root.title("Productivity Hacker")
@@ -7,6 +11,7 @@ ico = Image.open('logoHH2.png')
 photo = ImageTk.PhotoImage(ico)
 root.iconphoto(False, photo)
 root.geometry("1280x720")
+# -------------------------------------------------------------------------------
 background = ImageTk.PhotoImage(Image.open("bg222.png"))
 background_label = Label(root, image=background).place(x=0, y=0, relwidth=1, relheight=1)
 
@@ -24,7 +29,7 @@ timerCanvas.place(x=601, y=357)
 timerCanvas.create_image(1, 1, image=canvtimer, anchor=NW)
 
 timerTime = ImageTk.PhotoImage(Image.open("timerTimeL.png"))
-timerName = ImageTk.PhotoImage(Image.open("timerNameL.png"))
+timerName = ImageTk.PhotoImage(Image.open("test.png")) # timerNameL.png
 timerT = ImageTk.PhotoImage(Image.open("timerTB.png"))
 timerE = ImageTk.PhotoImage(Image.open("timerEB.png"))
 timerD = ImageTk.PhotoImage(Image.open("timerDB.png"))
@@ -40,8 +45,49 @@ deadlineBI = ImageTk.PhotoImage(Image.open("deadlineB.png"))
 taskBBlack = ImageTk.PhotoImage(Image.open("buttonCheckBlack.png"))
 taskBGray = ImageTk.PhotoImage(Image.open("buttonCheckGray.png"))
 
+one = ImageTk.PhotoImage(Image.open("1.png"))
+two = ImageTk.PhotoImage(Image.open("2.png"))
+three = ImageTk.PhotoImage(Image.open("3.png"))
+four = ImageTk.PhotoImage(Image.open("4.png"))
+five = ImageTk.PhotoImage(Image.open("5.png"))
+six = ImageTk.PhotoImage(Image.open("6.png"))
+seven = ImageTk.PhotoImage(Image.open("7.png"))
+eight = ImageTk.PhotoImage(Image.open("8.png"))
+nine = ImageTk.PhotoImage(Image.open("9.png"))
+ten = ImageTk.PhotoImage(Image.open("10.png"))
+# -------------------------------------------------------------------------------
 
-# Level
+# ## Up ## #
+settingsI = ImageTk.PhotoImage(Image.open("settingsIcon.png"))
+aboutI = ImageTk.PhotoImage(Image.open("aboutIcon.png"))
+tipsI = ImageTk.PhotoImage(Image.open("tipsIcon.png"))
+
+
+def settings():
+	setL = Label(root, bg="#fff5e6", text="Niestety ustawienia jeszcze nie działają :(")
+	setL.place(x=1000, y=40)
+	root.after(2000, setL.destroy)
+
+
+def about():
+	return
+
+
+def helpTips():
+	setL = Label(root, bg="#fff5e6", text="Niestety pomoc jeszcze nie działa :(")
+	setL.place(x=1000, y=40)
+	root.after(2000, setL.destroy)
+
+
+settingsB = Button(root, image=settingsI, bg="#fff5e6", activebackground="#fff5e6", borderwidth=0, command=settings)
+settingsB.place(x=1250, y=5)
+aboutB = Button(root, image=aboutI, bg="#fff5e6", activebackground="#fff5e6", borderwidth=0, command=about)
+aboutB.place(x=1225, y=5)
+tipsB = Button(root, image=tipsI, bg="#fff5e6", activebackground="#fff5e6", borderwidth=0, command=helpTips)
+tipsB.place(x=1200, y=5)
+
+
+# ## Level ## #
 size = 0.43
 oneLevel = Image.open("lvl1.png").resize((round(90*size), round(237*size)), Image.ANTIALIAS)
 oneLevel = ImageTk.PhotoImage(oneLevel)
@@ -119,6 +165,7 @@ def levelF():
 
 
 levelF()
+# -------------------------------------------------------------------------------
 
 # To Do
 todoTasks = 1
@@ -134,7 +181,6 @@ def todoAddNew():
 	global todobuttonsq
 	global todoTasks
 	if todobuttonsq <= 4:
-
 		def check():
 			global todobuttonsq
 			global xp
@@ -202,7 +248,7 @@ def todoAddNew():
 		def deadline():
 			return
 
-		todoL = Label(todoCanvas, text=todo_new_E.get(), image=taskL, compound=CENTER, borderwidth=0)
+		todoL = Label(todoCanvas, text=todo_new_E.get(), image=taskL, compound=CENTER, borderwidth=0, wraplength=160)
 		todoL.grid(row=todoTasks, column=0, padx=(6, 0), pady=(4, 0))
 		# todoL.place(x=62, y=todoTasks)
 		todoB = Button(todoCanvas, image=taskB, borderwidth=0, command=check)
@@ -251,15 +297,15 @@ todo_new_B.place(x=269, y=327, width=30, height=28)
 
 def restrictLen(event):
 	txt = todo_new_E.get()
-	if len(txt) >= 25:
-		todo_new_E.delete(25)
+	if len(txt) >= 50:
+		todo_new_E.delete(50)
 
 
 def clickDel(event):
 	global todo_new_B
 	todo_new_E.delete(0, 'end')
 	todo_new_B.config(state=ACTIVE)
-	todo_new_B.place(x=269, y=327, width=30, height=28)
+	# todo_new_B.place(x=269, y=327, width=30, height=28)
 
 
 def clickIns(event):
@@ -267,15 +313,15 @@ def clickIns(event):
 	todo_new_E.delete(0, 'end')
 	todo_new_E.insert(0, " Dodaj Nowe Zadanie")
 	todo_new_B.config(state=DISABLED)
-	todo_new_B.place(x=269, y=327, width=30, height=28)
+	# todo_new_B.place(x=269, y=327, width=30, height=28)
 
 
 todo_new_E.bind("<Key>", restrictLen)
 todo_new_E.bind("<FocusIn>", clickDel)
 todo_new_E.bind("<FocusOut>", clickIns)
+# -------------------------------------------------------------------------------
 
-
-# Habit
+# ## Habit ## #
 habitTasks = 1
 habitbuttonsq = 1
 
@@ -297,7 +343,6 @@ def habitAddNew():
 			habitB.config(image=taskBGray)
 			habitB.unbind("<Enter>")
 			habitB.unbind("<Leave>")
-
 			levelLabel.destroy()
 			xpLabel.destroy()
 			xp += 5
@@ -343,7 +388,7 @@ def habitAddNew():
 		def deadline():
 			return
 
-		habitL = Label(habitCanvas, text=habit_new_E.get(), image=taskL, compound="center", borderwidth=0)
+		habitL = Label(habitCanvas, text=habit_new_E.get(), image=taskL, compound="center", borderwidth=0, wraplength=160)
 		habitL.grid(row=habitTasks, column=0, padx=(6, 0), pady=(4, 0))
 		# habitL.place(x=62 + 272, y=habitTasks)
 		habitB = Button(habitCanvas, image=taskB, borderwidth=0, command=check)
@@ -384,6 +429,12 @@ habit_new_B = Button(root, text="+", bg="#ffffff", borderwidth=0, command=habitA
 habit_new_B.place(x=269 + 272, y=327, width=30, height=28)
 
 
+def restrictLen(event):
+	txt = habit_new_E.get()
+	if len(txt) >= 50:
+		habit_new_E.delete(50)
+
+
 def clickDel(event):
 	global habit_new_B
 	habit_new_E.delete(0, 'end')
@@ -399,78 +450,147 @@ def clickIns(event):
 
 habit_new_E.bind("<FocusIn>", clickDel)
 habit_new_E.bind("<FocusOut>", clickIns)
+habit_new_E.bind("<Key>", restrictLen)
+# -------------------------------------------------------------------------------
 
-
-# Timer
+# ## Timer ## #
+timerTasks = 1
+timerbuttonsq = 1
+xpnums = [4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 59]
 
 
 def timerAddNew():
+	global timerbuttonsq
+	global timerTasks
+	if timerbuttonsq <= 4:
+		def delete():
+			global timerbuttonsq
+			global timerTasks
+			timerNameL.destroy()
+			timerTimeL.destroy()
+			timerStartB.destroy()
+			timerStopB.destroy()
+			timerTB.destroy()
+			timerEB.destroy()
+			timerDB.destroy()
+			timerbuttonsq -= 1
 
-	def start():
-		global count
-		count = 0
-		start_timer()
+		def edit():
+			timerTB.config(state=DISABLED)
+			timerEB.config(state=DISABLED)
+			timerDB.config(state=DISABLED)
+			timerStartB.config(state=DISABLED)
+			timerStopB.config(state=DISABLED)
 
-	def start_timer():
-		global count
-		timer()
+			def saveEdit():
+				timerTB.config(state=ACTIVE)
+				timerEB.config(state=ACTIVE)
+				timerDB.config(state=ACTIVE)
+				timerStartB.config(state=ACTIVE)
+				timerStopB.config(state=ACTIVE)
+				timerNameL.config(text=editE.get())
+				saveEditB.destroy()
+				editE.delete(0, END)
+				editE.destroy()
 
-	def stop():
-		global count
-		count = 1
+			editE = Entry(root, borderwidth=1)
+			editE.place(x=600, y=326, width=212, height=29)
+			editE.insert(0, timerNameL.cget("text"))
+			saveEditB = Button(root, text="zapisz", borderwidth=0, command=saveEdit)
+			saveEditB.place(x=813, y=327, width=30, height=28)
 
-	def timer():
-		global count
-		if count == 0:
-			d = str(t.get())
-			h, m, s = map(int, d.split(":"))
+		def deadline():
+			return
 
-			h = int(h)
-			m = int(m)
-			s = int(s)
-			if s < 59:
-				s += 1
-			elif s == 59:
-				s = 0
-				if m < 59:
-					m += 1
-				elif m == 59:
-					h += 1
-			if h < 10:
-				h = str(0) + str(h)
-			else:
-				h = str(h)
-			if m < 10:
-				m = str(0) + str(m)
-			else:
-				m = str(m)
-			if s < 10:
-				s = str(0) + str(s)
-			else:
-				s = str(s)
-			d = h + ":" + m + ":" + s
+		def start():
+			global count
+			count = 0
+			timerStartB.config(state=DISABLED)
+			timerStopB.config(state=ACTIVE)
+			start_timer()
 
-			t.set(d)
+		def start_timer():
+			global count
+			timer()
+
+		def stop():
+			global count
+			timerStartB.config(state=ACTIVE)
+			timerStopB.config(state=DISABLED)
+			count = 1
+
+		def timer():
+			global xp
+			global count
+
 			if count == 0:
-				root.after(930, start_timer)
+				d = str(t.get())
+				h, m, s = map(int, d.split(":"))
 
-	t = StringVar()
-	t.set("00:00:00")
+				h = int(h)
+				m = int(m)
+				s = int(s)
 
-	timerNameL = Label(timerCanvas, text=timer_new_E.get(), image=timerName, compound=CENTER, borderwidth=0)
-	timerNameL.grid(row=0, column=1, sticky=N, pady=(6, 0))
-	timerTimeL = Label(timerCanvas, textvariable=t, image=timerTime, compound=CENTER, borderwidth=0)
-	timerTimeL.grid(row=0, column=1, sticky=NW, pady=(31, 0), rowspan=3)
-	timerStartB = Button(timerCanvas, image=timerStart, borderwidth=0, command=start)
-	timerStartB.grid(row=0, column=0, padx=(5, 0), pady=(5, 0))
-	timerStopB = Button(timerCanvas, image=timerStop, borderwidth=0, command=stop)
-	timerStopB.grid(row=1, column=0, padx=(5, 0), sticky=NW)
-	timerTB = Button(timerCanvas, image=timerT, borderwidth=0)
-	timerTB.grid(row=0, column=2, sticky=N, pady=(5, 0), padx=1, rowspan=2)
-	timerEB = Button(timerCanvas, image=timerE, borderwidth=0)
-	timerEB.grid(row=0, column=2, sticky=E, pady=(6, 0), padx=1, rowspan=2)
-	timerDB = Button(timerCanvas, image=timerD, borderwidth=0)
-	timerDB.grid(row=0, column=2, sticky=E, pady=(51, 0), padx=1, rowspan=2)
+				# Adds xp every 4 minutes on timer
+				if m in xpnums and s == 0:
+					xp += 1
+					levelF()
+					xpEff = Text(root, bg="#387cbc", width=5, height=0)
+					xpEff.insert(INSERT, "+1 xp")
+					xpEff.place(x=240, y=90)
+					root.after(1000, xpEff.destroy)
+
+				if s < 59:
+					s += 1
+				elif s == 59:
+					s = 0
+					if m < 59:
+						m += 1
+					elif m == 59:
+						h += 1
+				if h < 10:
+					h = str(0) + str(h)
+				else:
+					h = str(h)
+				if m < 10:
+					m = str(0) + str(m)
+				else:
+					m = str(m)
+				if s < 10:
+					s = str(0) + str(s)
+				else:
+					s = str(s)
+				d = h + ":" + m + ":" + s
+
+				t.set(d)
+				if count == 0:
+					root.after(1000, start_timer)
+
+		t = StringVar()
+		t.set("00:00:00")
+		timerNameL = Label(timerCanvas, text=timer_new_E.get(), image=timerName, compound=CENTER, borderwidth=0,
+		                   wraplength=160)
+		timerNameL.grid(row=timerTasks, column=1, sticky=N, pady=(5, 0))
+		timerTimeL = Label(timerCanvas, textvariable=t, font=25, image=timerTime, compound=CENTER, borderwidth=0)
+		timerTimeL.grid(row=timerTasks, column=1, sticky=NW, pady=(31, 0), rowspan=3)
+		timerStartB = Button(timerCanvas, image=timerStart, borderwidth=0, command=start)
+		timerStartB.grid(row=timerTasks, column=0, padx=(5, 0), pady=(5, 0))
+		timerStopB = Button(timerCanvas, image=timerStop, borderwidth=0, command=stop, state=DISABLED)
+		timerStopB.grid(row=timerTasks + 1, column=0, padx=(5, 0), sticky=NW)
+		timerTB = Button(timerCanvas, image=timerT, borderwidth=0, command=delete)
+		timerTB.grid(row=timerTasks, column=2, sticky=N, pady=(5, 0), rowspan=2)
+		timerEB = Button(timerCanvas, image=timerE, borderwidth=0, command=edit)
+		timerEB.grid(row=timerTasks, column=2, sticky=E, pady=(6, 0), rowspan=2)
+		timerDB = Button(timerCanvas, image=timerD, borderwidth=0, command=deadline)
+		timerDB.grid(row=timerTasks, column=2, sticky=E, pady=(51, 0), rowspan=2)
+		timerTasks += 2
+		timerbuttonsq += 1
+		timer_new_E.delete(0, END)
+	else:
+		errorPage = Label(root, text="Program jest w wersji alpha - ilość Timerów jest jeszcze ograniczona :(",
+		                  fg="#ffffff", bg="red")
+		errorPage.place(x=640, y=690)
+		root.after(3000, errorPage.destroy)
 
 
 timer_new_E = Entry(root, borderwidth=1)
@@ -478,6 +598,12 @@ timer_new_E.insert(0, " Dodaj Nowy Timer")
 timer_new_E.place(x=56 + 544, y=326, width=212, height=29)
 timer_new_B = Button(root, text="+", bg="#ffffff", borderwidth=0, command=timerAddNew, state=DISABLED)
 timer_new_B.place(x=269 + 544, y=327, width=30, height=28)
+
+
+def restrictLen(event):
+	txt = timer_new_E.get()
+	if len(txt) >= 40:
+		timer_new_E.delete(40)
 
 
 def clickDel(event):
@@ -493,7 +619,78 @@ def clickIns(event):
 	timer_new_B.config(state=DISABLED)
 
 
+timer_new_E.bind("<Key>", restrictLen)
 timer_new_E.bind("<FocusIn>", clickDel)
 timer_new_E.bind("<FocusOut>", clickIns)
+# -------------------------------------------------------------------------------
 
+# ## Graphs & Mood ## #
+xpList = []
+moodList = []
+
+
+def makeGraph():
+	global graph
+	# Make a data frame
+	df = pd.DataFrame({'x': xpList, 'y1': moodList})
+	# multiple line plot
+	num = 0
+	for column in df.drop('x', axis=1):
+		num += 1
+	plt.plot(df['x'], df[column], marker='', linewidth=1, alpha=0.9, label=column)
+	plt.xlabel("xp", fontsize=20)
+	plt.ylabel("humor", fontsize=20)
+
+	plt.savefig("graph.png", bbox_inches="tight")
+	graph = Image.open("graph.png").resize((587//2, 432//2), Image.ANTIALIAS)
+	graph = ImageTk.PhotoImage(graph)
+
+
+makeGraph()
+gC = Label(root, image=graph, borderwidth=1, relief="solid")
+gC.place(x=875, y=440)
+
+
+def dispGraph():
+	global gC
+	makeGraph()
+	# print(xpList, moodList)
+	gC.destroy()
+	gC = Label(root, image=graph, borderwidth=1, relief="solid")
+	gC.place(x=875, y=440)
+
+
+def numB(num):
+	xpList.append(xp)
+	moodList.append(num)
+	dispGraph()
+
+
+numsL = Label(root, text="Wybierz poziom humoru (1 - zły, 10 - świetny),\nwykres automatycznie się zaaktualizuje!",
+              bg="#ded7cc", borderwidth=0)
+numsL.place(x=950, y=400)
+oneB = Button(root, image=one, bg="#ded5cc", activebackground="#ded5cc", borderwidth=0, command=lambda: numB(1))
+oneB.place(x=1180, y=470)
+twoB = Button(root, image=two, bg="#ded5cc", activebackground="#ded5cc", borderwidth=0, command=lambda: numB(2))
+twoB.place(x=1180, y=470 + 40)
+threeB = Button(root, image=three, bg="#ded4cc", activebackground="#ded4cc", borderwidth=0, command=lambda: numB(3))
+threeB.place(x=1180, y=470 + 2 * 40)
+fourB = Button(root, image=four, bg="#ded4cc", activebackground="#ded4cc", borderwidth=0, command=lambda: numB(4))
+fourB.place(x=1180, y=470 + 3 * 40)
+fiveB = Button(root, image=five, bg="#ded3cc", activebackground="#ded3cc", borderwidth=0, command=lambda: numB(5))
+fiveB.place(x=1180, y=470 + 4 * 40)
+sixB = Button(root, image=six, bg="#ded3cc", activebackground="#ded3cc", borderwidth=0, command=lambda: numB(6))
+sixB.place(x=1220, y=470 + 4 * 40)
+sevenB = Button(root, image=seven, bg="#ded4cc", activebackground="#ded4cc", borderwidth=0, command=lambda: numB(7))
+sevenB.place(x=1220, y=470 + 3 * 40)
+eightB = Button(root, image=eight, bg="#ded4cc", activebackground="#ded4cc", borderwidth=0, command=lambda: numB(8))
+eightB.place(x=1220, y=470 + 2 * 40)
+nineB = Button(root, image=nine, bg="#ded5cc", activebackground="#ded5cc", borderwidth=0, command=lambda: numB(9))
+nineB.place(x=1220, y=470 + 40)
+tenB = Button(root, image=ten, bg="#ded5cc", activebackground="#ded5cc", borderwidth=0, command=lambda: numB(10))
+tenB.place(x=1220, y=470)
+displayPlot = Button(root, text="Aktualizuj Wykres", command=dispGraph)
+displayPlot.place(x=1165, y=670)
+
+# -------------------------------------------------------------------------------
 mainloop()
